@@ -1,0 +1,1108 @@
+/* выше в вёрстке подключили normalize */
+
+/* стили общие установочные стили */
+/* стили что бы в размерах элементов не появлялись лишние отступы и прочее  
+все паддинги будут браться за счет самого размера элемента*/
+html {
+  box-sizing: border-box;
+}
+
+/* у прочих элементов и псевдожлементов размеры 
+и паддинги будут браться от их родителей  */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* для ссылок цвет наследуюется от родителя
+и подчеркивание убираем */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* картинки что бы изображения не выходили за границы контейнера */
+img {
+  max-width: 100%;
+}
+
+/* добавляем шрифты 
+в src пропишем сначало local('OpenSans-Regular') что бы не выкачивать шрифты 
+если они уже есть локально, а потом уже url('../fonts/OpenSansRegular.woff')
+используем форматы woff и woff2 остальные не нужны,
+font-weight: 400; обычный размер шрифтов 
+font-display: swap; - как шрифт будет подключаться если шрифта ещё нет на устр-ве, 
+swap оптимальное, будет показваться шрифт пока не загрузит нужный либо сразу показывает нужный
+шрифт если он был на устр-ве
+*/
+@font-face {
+  font-family: 'OpenSans';
+  src: local('OpenSansRegular'), url('../fonts/OpenSansRegular.woff2') format('woff2'), url('../fonts/OpenSansRegular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* light версия 
+'../fonts/OpenSansLight'
+font-weight: 300;
+*/
+@font-face {
+  font-family: 'OpenSans';
+  src: local('OpenSansLight'), url('../fonts/OpenSansLight.woff2') format('woff2'), url('../fonts/OpenSansLight.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+/* и semi-bold
+'../fonts/OpenSansSemiBold'
+font-weight: 600;
+*/
+@font-face {
+  font-family: 'OpenSans';
+  src: local('OpenSans-SemiBold'), url('../fonts/OpenSansSemiBold.woff2') format('woff2'), url('../fonts/OpenSansSemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* для body минимальная ширина и шрифты
+шрифт по умолчанию 
+проверям в браузере что шрифты подгрузились, вкладка network - Font*/
+/* Адаптивность для дескопа
+меняем минимальную ширину согалсно мобилке с 1200 на 320 */
+body {
+  min-width: 320px;
+  font-family: 'OpenSans', sans-serif;
+  font-weight: 400;
+}
+
+/* Адаптивность для дескопа
+добавим root
+переменная --gap для использования в карточках services*/
+:root {
+  --gap: 30px;
+}
+
+/* glob */
+/* сбрасываем стили у списков */
+.list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* сбрасываем у кнопок */
+.btn-reset {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+/* стили для кнопки 
+псевдоэлементы и псевдоклассы: добавили position:relative*/
+.btn {
+  position: relative;
+  outline: none;
+  padding: 15px 35px;
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #3172b9;
+  border-radius: 3px;
+  /* добавим transition для цвета */
+  transition: background-color 0.3s ease-in-out;
+}
+/* задаём псевдоэлемент ::after что бы сделать обводку*/
+.btn::after {
+  content: '';
+  position: absolute;
+  /* для растягивание во всю ширину и высоту выставим по 0 
+  в испекторе убидемся что псевдоэлемент after растянулся и для отступов заменил на -3px*/
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+  /* наследуем округление бордера 
+  так же есди в будущем поменяют стиль не нужно переписывать его, он унаследуется*/
+  border-radius: inherit;
+  border: 1px solid #3172b9;
+  outline: none;
+  /* скроем обводку */
+  opacity: 0;
+  /* добавим transition для цвета */
+  transition: opacity 0.3s ease-in-out;
+}
+/* будем показывать обводку по фокусу */
+.btn:focus::after {
+  opacity: 1;
+}
+/* :hover состояние, светлеет при наведении */
+.btn:hover {
+  background-color: #71a7e2;
+}
+/* :focus состояние, темнеет при нажатии */
+.btn:active {
+  background-color: #0e3b6c;
+}
+/* отменяем обводку при сост-ии :active */
+.btn:active::after {
+  opacity: 0;
+}
+
+/* заранее сделали flex т.к. в вёрстке много элементов 
+где это будет необходимо */
+.flex {
+  display: flex;
+}
+/* для контейнера делаем ширину и паддинг отступы и центрирование*/
+/* Адаптивность для дескопа
+меняем width: 1200px; на max-width: 1200px; 
+и добавим width: 100%; */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+/* для заголовков в секциях сбрасываем отступы и задаем свои
+отступы сверху будем регулировать при помощи отступов в самих секциях*/
+.section-title {
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 130%;
+  margin: 0;
+  margin-bottom: 40px;
+}
+/* для описания в секцияхб сбрасываем отступы и задаем свои */
+.section-descr {
+  margin: 0;
+  margin-bottom: 50px;
+}
+/* отступы внутри секции, что бы не писать каждому классу секции по отдельныестили 
+создаим отдельный класс 
+(в данному случае это для services, arcticles, clients, contacts) */
+.section-offset {
+  padding-top: 87px;
+  padding-bottom: 160px;
+}
+
+/* общие стили закончились, начинаем описывать каждый индивидуально */
+/* header */
+/* делаем отступы по вертикали, по горизонтали отвечает контейнер 
+добавим линию (border) снизу и белый фон*/
+.header {
+  padding: 36px 0;
+  border-bottom: 1px solid #c4c4c4;
+  background-color: #fff;
+}
+/* завели стиль специально для центрирования контента */
+.header__container {
+  align-items: center;
+}
+/* задаём логотип стиль что бы всё что после него прижалось к правому краю */
+.header__logo {
+  margin-right: auto;
+}
+/* задаём отступ между навигацией со ссылками и кнопкой */
+.header__nav {
+  margin-right: 52px;
+}
+/* задаём отступы между элементами списка но не последнему элементу*/
+.nav__item:not(:last-child) {
+  margin-right: 52px;
+}
+
+.footer__nav .nav__link {
+  font-size: 12px;
+  color: #787878;
+}
+
+/* 
+стилизация ссылок, по макету другой цвет и начертание 
+семейстов шрифта не указваем т.к. добавили его в body
+псевдоклассы, добавили position: relative;
+*/
+.nav__link {
+  position: relative;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1c1c1c;
+  /* допишем transition */
+  transition: color 0.3s ease-in-out;
+}
+
+/* согласно макету (ui kit) нужно стилизовать ссылки при 
+1 - :focus (нажатие на клавиатуре ТАБ или пробел (часто задаётся обводка))
+2 - :hover (наведении)
+3 - :active (нажатие)
+И что быработало корректно нужно соблюдать указанный порядок.
+*/
+/* нажатие в выбранном состоянии
+зададим отступ и обводку */
+.nav__link:focus {
+  outline-offset: 2px;
+  outline: 1px solid #71a7e2;
+}
+/* наведение */
+.nav__link:hover {
+  color: #71a7e2;
+  cursor: pointer;
+}
+/* сделаем :active через псевдоэлемент ::after 
+нарисуем нижнее подчеркивание */
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3474ba;
+  /* скрываем этот псевдоэлемент */
+  opacity: 0;
+  /* добавляем transition */
+  transition: opacity 0.3s ease-in-out;
+}
+/* теперь добавим что бы цвет менялся и нижнее подчеркивание 
+появлялось только на состояние :active
+*/
+/* убираем обводку при клике и меняем цвет */
+.nav__link:active {
+  color: #3172b9;
+  outline: none;
+}
+/*  делаем подчеркиние видимым */
+.nav__link:active::after {
+  opacity: 1;
+}
+
+/* hero */
+/* задаём паддинги по вертикали, по горизонтали отвечает контейнер
+добавляем фоновую картинку, при скачивании в figma выбираем x2 для 
+хорошего отображения  на Retina дисплеев
+  background-size: cover; -- что бы картинка влазила полностью в контейнер,  
+  background-repeat: no-repeat; -- не повторялась
+  background-position: center; -- и была отцентрована
+и поправим отступы как в макете немного округлив в большую сторону
+*/
+.hero {
+  padding-top: 100px;
+  padding-bottom: 150px;
+  background-image: url('../img/hero-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+/* стили для контейнера с текстом что бы был перенос строки 
+более точные стили будут когда подключим шрифты*/
+.hero__content {
+  max-width: 50%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+/* для заголовков 
+добавим стили для заголовка
+  font-weight: 300; - тонкая толщина текста
+  font-size: 40px; - размер шрифта
+  line-height: 130%; - высота текста
+*/
+.hero__title {
+  margin: 0;
+  margin-bottom: 25px;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 130%;
+}
+/* для описание 
+стили для описания*/
+.hero__desc {
+  width: 471px;
+  margin: 0;
+  margin-bottom: 34px;
+  font-size: 16px;
+  line-height: 130%;
+  color: #787878;
+}
+/* добавили обёртку для кнопки и надписи под ней 
+и отцентрировали содержимое задав flex предварительно */
+.hero__wrapper {
+  flex-direction: column;
+  align-items: center;
+}
+/* для кнопки. сбрасывать не будем т.к. у кнопки отсупов по умолчанию нет */
+.hero__btn {
+  min-width: 250px;
+  padding: 20px 20px;
+  margin-bottom: 14px;
+}
+/* стилизуем подпись под кнопкой 
+задаем часть стилей как в макете
+и картинку фоном*/
+.hero__secure {
+  padding-left: 30px;
+  color: #787878;
+  font-size: 11px;
+  line-height: 155%;
+  text-transform: uppercase;
+  background-image: url('../img/secure.svg');
+  background-position: left center;
+  background-size: 14px 17px;
+  background-repeat: no-repeat;
+}
+
+/* services */
+/* добавим нижний бордер для данной секции */
+.services {
+  border-bottom: 1px solid #dadada;
+}
+/* для заголовка 
+добавим стилизацию для заголовка
+*/
+.services-title {
+  color: #1c1c1c;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 130%;
+}
+/* для описания 
+добавили стили для описания под заголовком
+*/
+.services-descr {
+  color: #787878;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* Адаптивность для дескопа 
+добавим кол-во отступов для services-item 
+ может менятся из-за кол-ва элементов, 
+ содали переменную и задали gap из переменной  */
+.services-list {
+  flex-wrap: wrap;
+  --offsets: 3;
+  gap: var(--gap);
+}
+
+/* для каждого элемента 
+меняем главную ось на по вертикали и центрируем 
+и отступы и ширину  
+Добавим стили для списка
+*/
+/* Адаптивность для дескопа 
+меняем width: 270px; на
+  width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1));
+*/
+.services-item {
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 30px;
+  /* 100% вычитам 30px умноженные на --offsets (3 внутренних отступа)
+  и делим на 4 (кол-во элементов) */
+  width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1));
+  border-radius: 5px;
+  border: 1px solid #e4e4e4;
+  /* добавляем  transition для бордера и фона */
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+/* меняем цвет фона и бордера по наведентю */
+.services-item:hover {
+  border-color: #3172b9;
+  background-color: #3172b9;
+  /*  */
+}
+
+/* и отступы с заделом на будущее если появятся еще карточки */
+/* Адаптивность для дескопа 
+убрали т.к. стало не нужно*/
+/* .services-item:not(:nth-child(4n)) {
+  margin-right: 30px;
+} */
+/* отступы внутри карточки */
+/* иконка 
+псевдоэлементы и псевдоклассы:
+задали цвет через fill */
+.services-item-icon {
+  fill: #3172b9;
+  margin-bottom: 25px;
+  /* добавляем transition */
+  transition: fill 0.3s ease-in-out;
+}
+/* будем менять цвет иконки на белый при наведении
+ обращаясь к нему через родителя */
+.services-item:hover .services-item-icon {
+  fill: #fff;
+}
+/* заголовок, обнуляем и дописываем свои 
+Добавим стили для заголовка*/
+.services-item-title {
+  margin: 0;
+  margin-bottom: 15px;
+  color: #1c1c1c;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+  /* добавляем transition */
+  transition: color 0.3s ease-in-out;
+}
+/* будем менять цвет заголовка на белый при наведении
+ обращаясь к нему через родителя */
+.services-item:hover .services-item-title {
+  color: #fff;
+}
+/* для описания 
+Добавим стили для описаиня*/
+.services-item-descr {
+  margin: 0;
+  text-align: center;
+  color: #787878;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  /* добавляем transition */
+  transition: color 0.3s ease-in-out;
+}
+/* будем менять цвет текста на белый при наведении
+ обращаясь к нему через родителя */
+.services-item:hover .services-item-descr {
+  color: #fff;
+}
+/* articles */
+/* добавим бордер в конце данной секции */
+.articles {
+  border-bottom: 1px solid #dadada;
+}
+/* для контейнера элементов добавим перенос элеменотов */
+/* Адаптивность для дескопа 
+задал gap
+и сделал переменную --offsets*/
+.articles-list {
+  flex-wrap: wrap;
+  --offsets: 1;
+  gap: var(--gap);
+}
+/* для элементов задали ширину и обводку 
+и отсутпы по вертикали
+убрали outline*/
+/* Адаптивность для дескопа 
+убрал   width: 570px;
+добавили вычисление ширины
+  width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1));
+*/
+.articles-item {
+  margin-bottom: 30px;
+  width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1));
+}
+/* добавим отступы по вертикали кроме каждого 2го эл-та */
+/* Адаптивность для дескопа 
+это уже не нужно т.к. добавили gap выше*/
+/* .articles-item:not(:nth-child(2n)) {
+  margin-right: 30px;
+} */
+/* Зададим стилизацию бордера для артикла 
+если задать border-radius для тега article то картинка не закруглится
+что бы это исправить необходимо ещё задать overflow: hidden; */
+.blog-preview {
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid #e4e4e4;
+  height: 100%;
+}
+/* добавили стили для нового элемента */
+.blog-preview-link {
+  position: relative;
+  height: inherit;
+  width: 100%;
+  /* добавляем transition */
+  transition: background-color 0.3s ease-in-out;
+}
+/* добавим сост. :focus */
+.blog-preview-link:focus {
+  background-color: #71a7e2;
+}
+/* для заголовка через родителя */
+.blog-preview-link:focus .blog-preview-title {
+  color: #fff;
+}
+/* для описания через родителя */
+.blog-preview-link:focus .blog-preview-descr {
+  color: #fff;
+}
+/* для времени через родителя */
+.blog-preview-link:focus .blog-preview-time {
+  color: #fff;
+}
+/* добавим сост. :hover */
+.blog-preview-link:hover {
+  background-color: #3172b9;
+}
+/* для заголовка через родителя */
+.blog-preview-link:hover .blog-preview-title {
+  color: #fff;
+}
+/* для описания через родителя */
+.blog-preview-link:hover .blog-preview-descr {
+  color: #fff;
+}
+/* для времени через родителя */
+.blog-preview-link:hover .blog-preview-time {
+  color: #fff;
+}
+/* добавим сост. :active */
+.blog-preview-link:active {
+  background-color: #0e3b6c;
+}
+/* для заголовка через родителя */
+.blog-preview-link:active .blog-preview-title {
+  color: #fff;
+}
+/* для описания через родителя */
+.blog-preview-link:active .blog-preview-descr {
+  color: #fff;
+}
+/* для времени через родителя */
+.blog-preview-link:active .blog-preview-time {
+  color: #fff;
+}
+
+/* отображение картинки внутри элемента
+что бы картинка занимала всё отведенное место */
+.blog-preview-image {
+  object-fit: cover;
+}
+
+/* отступы внутри карточки*/
+/* контейнер */
+.blog-preview-text {
+  padding: 30px;
+}
+/* время 
+Зададим стили*/
+.blog-preview-time {
+  display: block;
+  margin-bottom: 5px;
+  color: #787878;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 150%;
+  /* добавляем transition */
+  transition: color 0.3s ease-in-out;
+}
+/* заголовочек 
+Зададим стили для заголовка*/
+.blog-preview-title {
+  margin: 0;
+  margin-bottom: 15px;
+  color: #1c1c1c;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 130%;
+  /* добавляем transition */
+  transition: color 0.3s ease-in-out;
+}
+/* описание 
+Зададим стили из макета 
+а так же ширину для текста как в макете*/
+.blog-preview-descr {
+  max-width: 210px;
+  margin: 0;
+  color: #787878;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  /* добавляем transition */
+  transition: color 0.3s ease-in-out;
+}
+
+/* clients */
+/* Добавим бордер вконце данной секции */
+.clients {
+  border-bottom: 1px solid #dadada;
+}
+/* Адаптивность для дескопа 
+добавил .clients-list
+*/
+.clients-list {
+  flex-wrap: wrap;
+  --offsets: 2;
+  gap: var(--gap);
+}
+/* элементы внутри в столбец 
+Убираем outline и добавим border и закругление*/
+/* Адаптивность для дескопа 
+убрал width: 370px; 
+добавил  width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1));
+*/
+.clients-item {
+  flex-direction: column;
+  width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1));
+  padding: 50px 36px;
+  padding-bottom: 30px;
+  border-radius: 5px;
+  border: 1px solid #e4e4e4;
+}
+/* отступы для кадого элемента кроме каждого 3го */
+/* Адаптивность для дескопа 
+убираю т.к. есть gap*/
+/* .clients-item:not(:nth-child(3n)) {
+  margin-right: 30px;
+} */
+/* элемент описания 
+Задаём стили для шрифта*/
+.clients-item-descr {
+  margin: 0;
+  margin-bottom: 30px;
+  color: #787878;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 180%; /* 25.2px */
+}
+/* делаем так что бы секция с пользователем
+была прибита к низу не зависимо от контента карточки 
+и выравням по центру по вертикали
+Зададим стили:
+линия сверху - border
+и отступ padding-top что бы она была сверху
+*/
+.clients-user {
+  width: 100%;
+  padding-top: 28px;
+  align-items: center;
+  border-top: 1px solid #e4e4e4;
+}
+/* отступы для аватарки 
+а так же что бы аватарка не увеличивалась*/
+.clients-avatar {
+  flex-shrink: 0;
+  width: 67px;
+  margin-right: 17px;
+}
+/* 
+Добавим стили:
+обводку */
+.clients-avatar-img {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #3172b9;
+  border-radius: 100%;
+}
+/* отступ между строками 
+Добавим стили для текста имени 
+и уберу нижний отступ margin-bottom: 5px*/
+.clients-name {
+  color: #1c1c1c;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 180%; /* 30.6px */
+}
+
+/* Так же стили для подписи к имени */
+.clients-post {
+  color: #787878;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 180%; /* 25.2px */
+}
+
+/* contacts */
+/* добавим линию в конце секции */
+.contacts {
+  border-bottom: 1px solid #dadada;
+}
+/* убираем наклонный шрифт у адреса */
+.contacts-address {
+  font-style: normal;
+}
+
+/* Адаптивность для дескопа */
+.contacts-list {
+  flex-wrap: wrap;
+  --offsets: 2;
+  gap: var(--gap);
+}
+/* сделаем основную ось для элементов на вертикальную 
+Добавим стили: 
+- уберем outline
+- добавим иконки, позиция слева сверху, без повторов и размеры
+Это общие стили для иконок, а сами иконуи добавим через разные стили
+*/
+/* Адаптивность для дескопа 
+  width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1));
+*/
+.contacts-item {
+  flex-direction: column;
+  width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1));
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: 29px 29px;
+  padding-top: 48px;
+}
+/* иконка локации */
+.contacts-item-address {
+  background-image: url('../img/location_on.svg');
+}
+/* иконка телефонной трубки */
+.contacts-item-call {
+  background-image: url('../img/phone.svg');
+}
+/* иконка почты */
+.contacts-item-mail {
+  background-image: url('../img/email-us.svg');
+}
+/* отступ между элементами справа, кроме 3х эл-в  */
+/* Адаптивность для дескопа убрал */
+/* .contacts-item:not(:nth-child(3n)) {
+  margin-right: 30px;
+} */
+/* отступ для заголовочка 
+Добавим стили как в макете:
+*/
+.contacts-item-caption {
+  margin-bottom: 30px;
+  color: #1c1c1c;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 180%; /* 30.6px */
+}
+/* обнуляем у текста p 
+Добавим стили как в макете:*/
+.contacts-item-text {
+  width: 214px;
+  margin: 0;
+  color: #787878;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 180%; /* 25.2px */
+}
+
+/* для ссылок 
+Добавим стили как в макете, и уберем отсупы между ссылками т.к.
+мы добавили  line-height: 180%; */
+.contacts-item-link {
+  color: #787878;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 180%; /* 25.2px */
+  /* добавляем transition */
+  transition: color 0.3s ease-in-out;
+}
+/* оживляем ссылки контактов
+при нажатии */
+.contacts-item-link:focus {
+  outline: 1px solid #71a7e2;
+}
+/* при наведенеии */
+.contacts-item-link:hover {
+  color: #71a7e2;
+}
+/* обводка */
+.contacts-item-link:active {
+  outline: none;
+  color: #0e3b6c;
+}
+
+/* join-us */
+/* проведем нижнюю черту под секцией */
+.join-us {
+  padding-bottom: 122px;
+  border-bottom: 1px solid #dadada;
+}
+/* вырвнивание заголовка по середине */
+.join-us-title {
+  text-align: center;
+}
+/* описание выравняем по середине и отступ*/
+.join-us-descr {
+  text-align: center;
+  margin-bottom: 30px;
+}
+/* зададим отступы */
+.form {
+  padding-left: 55px;
+  padding-right: 55px;
+}
+/* размещение содержимого формы */
+.form-top {
+  justify-content: space-between;
+  margin-bottom: 19px;
+}
+/*
+ зададим ширину 49% для отступа
+перенос при переполнении
+и разнесем по краям
+зададим gap:14px
+но появляется проблема, 
+при экране 1193 появляется большой отступ  
+между полями и полем коммента
+что бы это исправить создадим файл media.css 
+в котором будем хранить все медиа запросы*/
+.form-left {
+  width: 49%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 14px;
+}
+.form-right {
+  width: 49%;
+}
+
+/* убрали отступ у последних 2х элементов что бы использовать gap */
+/* .form-input:nth-child(-n + 2) {
+  margin-bottom: 19px;
+} */
+/* стили для инпута */
+.form-input {
+  width: 251px;
+  height: 60px;
+  padding: 16px 28px;
+  border: 1px solid #dadada;
+  border-radius: 50px;
+  box-sizing: border-box;
+  /* добавляем transition */
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+/* оживляем форму */
+.form-input:focus {
+  outline: none;
+  border-color: #71a7e2;
+  background-color: rgba(113, 167, 226, 0.2);
+}
+/* меняем цвет бордера при наведении */
+.form-input:hover {
+  border-color: #71a7e2;
+}
+/* active */
+.form-input:active {
+  border-color: #0e3b6c;
+}
+
+/* скроем бургер что бы показывать его на 992px */
+.burder {
+  display: none;
+}
+
+/* стили для селекта */
+.form-select {
+  width: 251px;
+  height: 60px;
+  padding: 16px 28px;
+  border: 1px solid #dadada;
+  border-radius: 50px;
+  box-sizing: border-box;
+  /* добавляем transition */
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+/* так же как и инпут оживим селект, с теми же стилями */
+/* оживляем форму */
+.form-select:focus {
+  outline: none;
+  border-color: #71a7e2;
+  background-color: rgba(113, 167, 226, 0.2);
+}
+/* меняем цвет бордера при наведении */
+.form-select:hover {
+  border-color: #71a7e2;
+}
+/* active */
+.form-select:active {
+  border-color: #0e3b6c;
+}
+
+/* 
+для textarea 
+ширина на полную внутри контейнера
+и высоту
+*/
+.form-textarea {
+  width: 100%;
+  height: 100%;
+  padding: 16px 28px;
+  border: 1px solid #dadada;
+  border-radius: 20px;
+  box-sizing: border-box;
+  resize: none;
+  /* добавляем transition */
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+/* так же как и инпут оживим textarea, с теми же стилями */
+/* оживляем форму */
+.form-textarea:focus {
+  outline: none;
+  border-color: #71a7e2;
+  background-color: rgba(113, 167, 226, 0.2);
+}
+/* меняем цвет бордера при наведении */
+.form-textarea:hover {
+  border-color: #71a7e2;
+}
+/* active */
+.form-textarea:active {
+  border-color: #0e3b6c;
+}
+
+/* расположим элементы кнопки и чекбокс справа */
+.form-bottom {
+  justify-content: flex-end;
+}
+/* расположим кнопку и чекбокс в столбец */
+.form-wrpper {
+  flex-direction: column;
+  align-items: center;
+}
+/* отступы для кнопки */
+.form-btn {
+  min-width: 230px;
+  height: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 9px;
+  border-radius: 50px;
+}
+/* стили для чекбокса */
+.form-check {
+  color: #787878;
+  font-size: 12px;
+  line-height: 16px;
+}
+/* отсуп перед текстом */
+.form-check-input {
+  margin-right: 8px;
+}
+/* стили для ссылки в тексте */
+.form-check-link {
+  color: #3172b9;
+  text-decoration-line: underline;
+}
+
+/* footer */
+/* отступы */
+.footer {
+  padding: 42px 0;
+}
+/* центрируем по вертикали 
+и разносим секции левую и правую по краям*/
+.footer__container {
+  align-items: center;
+  justify-content: space-between;
+}
+/* центрируем элементы внутри */
+.footer__left,
+.footer__right {
+  align-items: center;
+}
+.footer__nav {
+  margin-right: 56px;
+}
+/* отступ */
+.footer__logo {
+  margin-right: 25px;
+}
+/* отступы для элементов кроме последнего */
+.footer__nav .nav__item:not(:last-child) {
+  margin-right: 28px;
+}
+/* Добавили стили как в макете */
+.footer__copy {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #787878;
+}
+/* Добавили стили как в макете */
+.nav__link {
+  position: relative;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  color: #787878;
+  transition: color 0.3s ease-in-out;
+}
+.nav__link:focus {
+  outline-offset: 2px;
+  outline: 1px solid #71a7e2;
+}
+/* наведение */
+.nav__link:hover {
+  color: #71a7e2;
+  cursor: pointer;
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3474ba;
+  /* скрываем этот псевдоэлемент */
+  opacity: 0;
+  /* добавляем transition */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.nav__link:active {
+  color: #3172b9;
+  outline: none;
+}
+.nav__link:active::after {
+  opacity: 1;
+}
+
+.social {
+  align-items: center;
+}
+/* добавили отступы между иконками */
+.social-item:not(:last-child) {
+  margin-right: 32px;
+}
+/* Добавили стили как в макете:
+делаем блочным
+задаём размер больше чем в макете что бы пользователь мог удобно кликать */
+/* убрали старые стили которые грузились фоном */
+/* делаем центрирование */
+.social-link {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-self: center;
+}
+/* задали цвет иконкам */
+.social-link svg {
+  fill: #000;
+  /* transition */
+  transition: fill 0.3s ease-in-out;
+}
+/* для почты нет заливки 
+но есть обводка */
+.social-link.social-link-mail svg {
+  fill: transparent;
+  stroke: #000;
+  transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
+}
+
+/* делаем обводку по нажатию */
+.social-link:focus {
+  outline-offset: 2px;
+  outline: 1px solid #71a7e2;
+}
+/* наведеине */
+.social-link:hover svg {
+  fill: #71a7e2;
+}
+.social-link-mail:hover svg {
+  fill: transparent;
+  stroke: #71a7e2;
+}
+/* active */
+.social-link:active svg {
+  fill: #3172b9;
+}
+.social-link-mail:active svg {
+  fill: transparent;
+  stroke: #3172b9;
+}

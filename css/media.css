@@ -1,0 +1,262 @@
+/* при ширине 1200px (1200 потому что это безопастная (распрастраненная) ширина)
+зададим ширину 100% */
+@media (max-width: 1200px) {
+  .form-input,
+  .form-select {
+    width: 100%;
+  }
+}
+
+/* при проверке на 992 всё корректно работает но
+из-за того что на 768 всё сломалось
+мы будем писать исправления для 768 в 992 при этом 
+отлаживаться (проверять исправления) на проблемном 768 */
+@media (max-width: 992px) {
+  /* пока скроем nav меню в хэдере */
+  .header__nav {
+    display: none;
+  }
+
+  /* делаем бургер видимым
+  currentColor берёт цвет из свойства color */
+  .burger {
+    position: relative;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    display: block;
+    width: 40px;
+    height: 40px;
+    color: #3172b9;
+  }
+
+  /* 
+    left: 50%;
+    transform: translate(-50%);
+    выравняли элемент по центру своего родителя
+  */
+  .burger__line {
+    position: absolute;
+    left: 50%;
+    width: 20px;
+    height: 2px;
+    border-radius: inherit;
+    background-color: currentColor;
+    transform: translateX(-50%);
+  }
+
+  /* расставим линии в верх и вниз т.к. сейчас они все вставились в одно место
+  верхняя линия */
+  .burger__line:nth-child(1) {
+    top: 13px;
+  }
+  .burger__line:nth-child(2) {
+    top: 50%;
+    transform: translate(-50%, -50%); /*равноценно translateX(-50%) translateY(-50%)*/
+  }
+  .burger__line:nth-child(3) {
+    bottom: 13px;
+  }
+
+  .header__btn {
+    padding: 11px 21px;
+    margin-right: 7px;
+  }
+
+  /* увеличим ширину контейнера что бы текст занима больше места у hero */
+  .hero__content {
+    max-width: 75%;
+  }
+
+  /* изменим кол-во отступов, было 3 стало 2 */
+  .services-list {
+    --offsets: 2;
+  }
+
+  /* для карточек с отступами клиентов поставили 1 отступ */
+  .clients-list {
+    --offsets: 1;
+  }
+
+  /* зададим перенос строки для футера */
+  .footer__container {
+    flex-direction: column;
+  }
+
+  /* так же зададим отсутп между элементами в футере */
+  .footer__left {
+    margin-bottom: var(--gap);
+  }
+}
+
+/* мобильны телефоны начинаются с разрешения 576px 
+при просмотре сайта с таким разрешением возникаются некоторые проблемы
+поэтому будем писать исправления в 768px */
+@media (max-width: 768px) {
+  /* изменим кол-во отступов, для карточек с 2 до 1 */
+  .services-list {
+    --offsets: 1;
+  }
+  /* так же исзменим карточки с картинками, передвинем картинки 
+  вверх а текст вниз карточки */
+  .blog-preview-link {
+    flex-direction: column;
+  }
+
+  /* в join us изменим отступы по бокам */
+  /* зададим отступы */
+  .form {
+    padding: 0;
+  }
+
+  /* изменим отступы между элементами в футере */
+  .footer__nav .nav__item:not(:last-child) {
+    margin-right: 18px;
+  }
+}
+
+/* следующее разрешение 320px
+ на нём конечно же всё сломалось
+ и править это будем на 576px*/
+@media (max-width: 576px) {
+  /* сначало сделаем очевидные изменения без макета */
+  /* в секции клиентов изменим кол-во отступов на 0 */
+  .clients-list {
+    --offsets: 0;
+  }
+  /* то же самое в секции контактов */
+  .contacts-list {
+    --offsets: 0;
+  }
+
+  /* в футере зададим перенос строки */
+  .footer__right {
+    flex-direction: column;
+  }
+
+  /* теперь правим согласно макету */
+  /* изменим логотип */
+  .header__logo {
+    width: 80px;
+  }
+
+  .header {
+    padding: 15px 0;
+  }
+  .header__btn {
+    padding: 11px 19px;
+    margin-right: 8px;
+  }
+
+  .hero__content {
+    max-width: 100%;
+  }
+  .hero {
+    padding-top: 30px;
+    padding-bottom: 0;
+  }
+  .hero__title {
+    margin-bottom: 16px;
+  }
+  .hero__desc {
+    width: 300px;
+    line-height: 156%;
+    margin-bottom: 14px;
+  }
+  .hero__wrapper {
+    width: 100%;
+  }
+  .hero__btn {
+    width: 100%;
+  }
+
+  .section-offset {
+    padding: 60px 0;
+  }
+
+  .services-title {
+    text-align: left;
+  }
+  .section-title {
+    margin-bottom: 16px;
+  }
+
+  .section-descr {
+    letter-spacing: 0.1px;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: left;
+    margin-bottom: 15px;
+  }
+
+  :root {
+    --gap: 15px;
+  }
+
+  .services-list {
+    row-gap: 20px;
+  }
+
+  .services-item {
+    padding: 15px;
+    min-height: 222px;
+  }
+
+  .services-item-icon {
+    margin-bottom: 14px;
+    height: 42px;
+  }
+
+  .services-item-title {
+    font-size: 16px;
+    line-height: 130%;
+    margin-bottom: 4px;
+  }
+
+  .services-item-descr {
+    font-size: 12px;
+    line-height: 150%;
+  }
+
+  .articles-item {
+    margin-bottom: 0;
+  }
+
+  .articles-title {
+    margin-bottom: 13px;
+  }
+  .articles-list {
+    --offsets: 0;
+  }
+
+  .blog-preview-link {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .blog-preview {
+    min-height: 191px;
+  }
+
+  .blog-preview-image {
+    width: 86px;
+    height: 100%;
+    flex-shrink: 0; /*что бы картинка всегда была 86 шириной*/
+  }
+  .blog-preview-text {
+    padding: 15px 14px;
+  }
+
+  .blog-preview-title {
+    margin-bottom: 0px;
+  }
+
+  .clients-item {
+    padding: 18px 18px;
+  }
+  .clients-avatar {
+    width: 69px;
+  }
+  .clients-name {
+    margin-bottom: 0;
+  }
+}
