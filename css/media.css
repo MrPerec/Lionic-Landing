@@ -259,4 +259,109 @@
   .clients-name {
     margin-bottom: 0;
   }
+
+  .contacts-title {
+    margin-bottom: 13px;
+  }
+  .contacts-item {
+    padding-top: 40px;
+  }
+  .contacts-item-caption {
+    margin-bottom: 10px;
+  }
+  .contacts-list {
+    gap: 29px;
+  }
+
+  .join-us-title {
+    text-align: left;
+  }
+  .form-top {
+    flex-direction: column;
+    margin-bottom: 11px;
+  }
+  .form-left {
+    width: 100%;
+    margin-bottom: 17px;
+  }
+  .form-input {
+    padding: 16px 19px;
+  }
+  .form-select {
+    padding: 19px 15px;
+  }
+  .form-right {
+    width: 100%;
+  }
+  .form-textarea {
+    padding: 16px 19px;
+    height: 240px;
+  }
+  .form-bottom {
+    width: 100%;
+  }
+  .form-wrpper {
+    width: 100%;
+  }
+  .form-btn {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .footer {
+    padding: 0;
+    padding-top: 30px;
+  }
+  .footer__container {
+    flex-direction: column-reverse;
+  }
+  /* тут обращаемся через родительский элемент */
+  .footer__nav .nav__link {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .footer__nav .nav__list {
+    flex-wrap: wrap;
+    gap: 15px 30px;
+  }
+
+  .footer__nav .nav__item:not(:last-child) {
+    margin-right: 0;
+  }
+  .footer__nav {
+    margin-right: 0;
+    margin-bottom: 27px;
+  }
+  .footer__right {
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+  .social-item:not(:last-child) {
+    margin-right: 26px;
+  }
+
+  .footer__left {
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    width: 100%;
+  }
+  .footer__logo {
+    width: 80px;
+    margin-bottom: 26px;
+  }
+  .footer__copy {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    padding: 17px 0;
+  }
+  .footer__copy::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 0;
+    width: calc(100% + 30px);
+    height: 1px;
+    background: #c4c4c4;
+  }
 }
