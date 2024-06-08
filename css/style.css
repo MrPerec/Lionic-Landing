@@ -157,11 +157,13 @@ body {
 /* Адаптивность для дескопа
 меняем width: 1200px; на max-width: 1200px; 
 и добавим width: 100%; */
+/* т.к. у bootstrap есть стили container то закомментируем сови стили container, 
+оставим только ширину, т.к. у bootstrap другая а у нас по макету 1200 */
 .container {
   max-width: 1200px;
-  width: 100%;
+  /* width: 100%;
   padding: 0 15px;
-  margin: 0 auto;
+  margin: 0 auto; */
 }
 /* для заголовков в секциях сбрасываем отступы и задаем свои
 отступы сверху будем регулировать при помощи отступов в самих секциях*/
@@ -294,11 +296,12 @@ body {
 }
 /* стили для контейнера с текстом что бы был перенос строки 
 более точные стили будут когда подключим шрифты*/
-.hero__content {
+/* bootstrap: убираем этот стиль т.к. подключили новый */
+/* .hero__content {
   max-width: 50%;
   flex-direction: column;
   align-items: flex-start;
-}
+} */
 /* для заголовков 
 добавим стили для заголовка
   font-weight: 300; - тонкая толщина текста
@@ -325,6 +328,7 @@ body {
 /* добавили обёртку для кнопки и надписи под ней 
 и отцентрировали содержимое задав flex предварительно */
 .hero__wrapper {
+  max-width: 250px;
   flex-direction: column;
   align-items: center;
 }
@@ -354,6 +358,9 @@ body {
 .services {
   border-bottom: 1px solid #dadada;
 }
+.services-offset {
+  padding-bottom: 130px;
+}
 /* для заголовка 
 добавим стилизацию для заголовка
 */
@@ -379,10 +386,11 @@ body {
 добавим кол-во отступов для services-item 
  может менятся из-за кол-ва элементов, 
  содали переменную и задали gap из переменной  */
+/* bootstrap: уберем отступы offsets и gap */
 .services-list {
   flex-wrap: wrap;
-  --offsets: 3;
-  gap: var(--gap);
+  /* --offsets: 3; */
+  /* gap: var(--gap); */
 }
 
 /* для каждого элемента 
@@ -400,12 +408,16 @@ body {
   padding: 60px 30px;
   /* 100% вычитам 30px умноженные на --offsets (3 внутренних отступа)
   и делим на 4 (кол-во элементов) */
-  width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1));
+  /* bootstrap: уберём width */
+  /* width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1)); */
   border-radius: 5px;
   border: 1px solid #e4e4e4;
   /* добавляем  transition для бордера и фона */
   transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  /* bootstrap: добавим отступ снизу что бы последняя карточка не слипалась */
+  margin-bottom: 30px;
 }
+
 /* меняем цвет фона и бордера по наведентю */
 .services-item:hover {
   border-color: #3172b9;
@@ -622,14 +634,16 @@ body {
 .clients {
   border-bottom: 1px solid #dadada;
 }
+
 /* Адаптивность для дескопа 
 добавил .clients-list
 */
-.clients-list {
+/* bootstrap: уберем clients-list */
+/* .clients-list {
   flex-wrap: wrap;
   --offsets: 2;
   gap: var(--gap);
-}
+} */
 /* элементы внутри в столбец 
 Убираем outline и добавим border и закругление*/
 /* Адаптивность для дескопа 
@@ -718,11 +732,12 @@ body {
 }
 
 /* Адаптивность для дескопа */
-.contacts-list {
+/* bootstrap: убираем и заменям на row в разметке */
+/* .contacts-list {
   flex-wrap: wrap;
   --offsets: 2;
   gap: var(--gap);
-}
+} */
 /* сделаем основную ось для элементов на вертикальную 
 Добавим стили: 
 - уберем outline
